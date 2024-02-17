@@ -3,9 +3,7 @@ import { redBright } from "colorette"
 
 async function connectToDatabase() {
     try {
-        let uri = 'mongodb+srv://chatbot:rU2a1gi1F3ZmK566@chatbot.rkpt3ls.mongodb.net/chatbot?retryWrites=true&w=majority'
-        await connect(uri);
-        // await connect(process.env.MONGODB_URI);
+        await connect(process.env.MONGODB_URI);
     } catch (error) {
         throw new Error( "Cannot connect to MongoDB");
     }
