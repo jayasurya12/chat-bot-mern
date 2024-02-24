@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react';
+import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 
 type User = {
     name: string,
@@ -10,28 +10,42 @@ type UserAuth = {
     user: User | null;
     login: (email: string, password: string) => Promise<void>;
     signup: (name: string, email: string, password: string) => Promise<void>;
-    LogOut: () => Promise<void>;
+    logOut: () => Promise<void>;
 }
 
 const AuthContext = createContext<UserAuth | null>(null);
-const AuthProvider = ({ children }: { children: ReactNode }) => {
+
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
 
     useEffect(() => {
-        // fetch if the user's cookies are valid  then skip login
-
+        // fetch if the user's cookies are valid then skip login
     }, []);
+
     const login = async (email: string, password: string) => {};
     const signup = async (name: string, email: string, password: string) => {};
-    const logout = async () => {};
+    const logOut = async () => {};
 
     const value = {
         user,
         isLoggedIn,
         login,
-        logout,
+        logOut,
         signup
-    }
-    return <AuthContext.Provider value={ value }> { children } </AuthContext.Provider>
+    };
+
+    return (
+        <AuthContext.Provider value={value}>
+            {children}
+        </AuthContext.Provider>
+    );
 }
+
+export const useAuth = () => {
+    const context = useContext(AuthContext);
+    if (!context) {
+        throw new Error("useAuth must be used within an AuthProvider");
+    }
+    return context;
+};
