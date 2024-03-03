@@ -1,11 +1,10 @@
-import React from 'react';
 import { AppBar, Toolbar } from '@mui/material';
 import Logo from './shared/Logo';
 import { useAuth } from '../context/AuthContext';
 import Navigationlink from './shared/Navigationlink';
 
 const Header = () => {
-  const auth = useAuth();
+  const auth = useAuth(); 
   return (
     <AppBar
       sx={{ bgcolor: 'transparent', position: 'static', boxShadow: 'none' }}>
@@ -13,7 +12,7 @@ const Header = () => {
         <Logo/>
         <div>
           { 
-          auth?.isLoggedIn ?( 
+          auth?.isLoggedIn ? ( 
             <>
               <Navigationlink 
                 bg="#00fffc"
@@ -24,24 +23,25 @@ const Header = () => {
               <Navigationlink 
                 bg="#51538f" 
                 textColor='white'
-                to='/'
                 text="Logout"
-                onClick={auth.logOut}
+                to='/'
+                onClick={auth?.logOut}
               />
             </> ) : 
           <>
             <Navigationlink 
               bg="#00fffc"
-              text="Login"
               textColor='black'
+              text="Login"
               to='/login'
+              onClick={auth?.logIn}
             />
             <Navigationlink 
               bg="#51538f" 
               textColor='white'
-              to='/signup'
               text="signgUp"
-              onClick={auth.logOut}
+              to='/signup'
+              onClick={auth?.signUp}
             />
           </>
         }
